@@ -24,7 +24,7 @@ app.get('/heroes', (req, res) => {
 });
 
 // Ruta /heroes/n ➝ se envía el nombre y profesión del héroe solicitado
-app.get('/heroes/:id', (req,res) => {
+app.get('/heroes/:id/profesion', (req,res) => {
 	// Acá lo primero será encontrar al héroe que corresponda
 	let id = req.params.id;
 	let heroe = heroes[id-1];
@@ -38,19 +38,31 @@ app.get('/heroes/:id', (req,res) => {
 });
 
 // Ruta /heroes/n/bio ➝ se envía la bio del héroe solicitado
-// app.get('¿?', (¿?) => {
-// 	// Acá lo primero será encontrar al héroe que corresponda
-// 	let heroe = __¿?__;
-
-// 	// Si NO se encuentra al héroe se envía un mensaje
-// 	// Si se encuentra al héroe:
-// 		// Se pregunta si vino el parámetro Y el valor esperado y se envía la información
-// 		// Si nó vino el parámetro se envía el mensaje de error
-// 	}
-// });
+app.get('/heroes/:id/resenia/:tipo?', (req, res) => {
+	// Acá lo primero será encontrar al héroe que corresponda
+	let id = req.params.id;
+	let tipo = req.params.tipo;
+	let heroe = heroes[id-1];
+	// Si NO se encuentra al héroe se envía un mensaje
+	if (heroe == undefined) {
+		res.send('No tenemos en nuestra base ningún héroe ni heroína con ese id');
+	}
+	// Si se encuentra al héroe:
+		// Se pregunta si vino el parámetro Y el valor esperado y se envía la información
+		else if (tipo != 'tipo' || tipo == undefined) {
+			let resenia = heroe.resenia.split(' ').slice(0,30).join(' ');
+			res.send(heroe.nombre + ': <br>' + resenia + '.....');
+		}
+		// Si nó vino el parámetro se envía el mensaje de error
+		else {
+			res.send(heroe.nombre + ': <br>' + heroe.resenia);
+		}
+});
 
 // Ruta Créditos
-// ¿?
+app.get('/creditos',(req, res)=>{
+	res.send('Creditos de Dani y Sebi :)');
+});
 
 // Ruta... ¿Pára qué sirve esto?
 app.get('*', (req, res) => {
